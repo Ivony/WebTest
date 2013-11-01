@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Ivony.Html;
+using Ivony.Html.Parser;
+using Ivony.Web.Test.Properties;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -58,27 +61,35 @@ namespace Ivony.Web.Test
       TestManager manager = new TestManager();
 
 
+      var document = new JumonyParser().Parse( Resources.Report );
+
+
+
       foreach ( var testType in types )
       {
-        GenerateReport( context.Response.Output, manager.RunTest( testType ) );
+        var results = await Task.Run( () => manager.RunTest( testType ) );
+        var container = document.FindFirst( "body" ).AddElement( "div" );
+        GenerateReport( container, results );
       }
+
+      document.Render( context.Response.Output );
 
     }
 
-    private void GenerateReport( TextWriter writer, TestResult[] results )
+    private void GenerateReport( IHtmlContainer container, TestResult[] results )
     {
-
       foreach ( var result in results )
       {
+        var resultElement = container.AddElement( "div" );
+        resultElement.Class( "result" );
+
         if ( result.IsSuccessed )
-          writer.WriteLine( "<div class='result successed'>" );
-        else
-          writer.WriteLine( "<div class='result'>" );
+          resultElement.Class( "successed" );
 
 
-        writer.WriteLine( "<span class='name'>{0}</span>", result.TestInfo.Name );
-        writer.WriteLine( "<span class='message'>{0}</span>", result.Message );
-        writer.WriteLine( "</div>" );
+        resultElement.AddElement( "span" ).Class( "name" ).InnerText( result.TestInfo.Name );
+        resultElement.AddElement( "span" ).Class( "message" ).InnerText( result.Message );
+
       }
     }
   }
