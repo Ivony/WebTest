@@ -12,7 +12,7 @@ namespace Ivony.Web.Test
     public TestResultSuccess( TestInfo info, TimeSpan duration )
       : base( info )
     {
-
+      Duration = duration;
     }
 
 
