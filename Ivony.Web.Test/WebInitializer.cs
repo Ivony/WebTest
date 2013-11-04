@@ -6,7 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Routing;
-using Ivony.Fluent;
 
 
 
@@ -31,7 +30,10 @@ namespace Ivony.Web.Test
     {
       var path = httpContext.Request.AppRelativeCurrentExecutionFilePath + httpContext.Request.PathInfo;
 
-      if ( VirtualPathUtility.GetExtension( path ).EqualsIgnoreCase( ".test" ) )
+      if (
+        string.Equals( VirtualPathUtility.GetExtension( path ), ".test", StringComparison.OrdinalIgnoreCase ) ||
+        string.Equals( path, "~/test", StringComparison.OrdinalIgnoreCase ) )
+
         return new RouteData( this, new TestRouteHandler() );
 
 

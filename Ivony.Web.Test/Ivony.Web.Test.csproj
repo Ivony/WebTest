@@ -33,18 +33,6 @@
     <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Ivony.Core">
-      <HintPath>..\packages\Ivony.Core.1.0.1\lib\Ivony.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Ivony.Html">
-      <HintPath>..\packages\JumonyCore.3.0.5.0-beta\lib\Ivony.Html.dll</HintPath>
-    </Reference>
-    <Reference Include="Ivony.Html.Parser">
-      <HintPath>..\packages\JumonyCore.3.0.5.0-beta\lib\Ivony.Html.Parser.dll</HintPath>
-    </Reference>
-    <Reference Include="Ivony.Html.Parser.Regulars">
-      <HintPath>..\packages\JumonyCore.3.0.5.0-beta\lib\Ivony.Html.Parser.Regulars.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
@@ -86,7 +74,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
     <Content Include="Resources\Report.html" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

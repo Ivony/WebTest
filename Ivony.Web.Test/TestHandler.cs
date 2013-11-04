@@ -1,6 +1,4 @@
-﻿using Ivony.Html;
-using Ivony.Html.Parser;
-using Ivony.Web.Test.Properties;
+﻿using Ivony.Web.Test.Properties;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -58,7 +56,6 @@ namespace Ivony.Web.Test
 
       var types = TestManager.FindTestClasses();
 
-      var document = new JumonyParser().Parse( Resources.Report );
       var report = new TestReportService( context.Response.Output );
 
 
@@ -79,21 +76,5 @@ namespace Ivony.Web.Test
 
     }
 
-    private void GenerateReport( IHtmlContainer container, TestResult[] results )
-    {
-      foreach ( var result in results )
-      {
-        var resultElement = container.AddElement( "div" );
-        resultElement.Class( "result" );
-
-        if ( result.IsSuccessed )
-          resultElement.Class( "successed" );
-
-
-        resultElement.AddElement( "span" ).Class( "name" ).InnerText( result.TestInfo.Name );
-        resultElement.AddElement( "span" ).Class( "message" ).InnerText( result.Message );
-
-      }
-    }
   }
 }
