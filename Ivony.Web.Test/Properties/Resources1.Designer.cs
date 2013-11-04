@@ -61,7 +61,15 @@ namespace Ivony.Web.Test.Properties {
         }
         
         /// <summary>
-        ///   查找类似  的本地化字符串。
+        ///   查找类似 &lt;html&gt;
+        ///&lt;head&gt;
+        ///&lt;style&gt;
+        ///
+        ///&lt;/style&gt;
+        ///&lt;/head&gt;
+        ///&lt;body&gt;
+        ///&lt;/body&gt;
+        ///&lt;/html&gt; 的本地化字符串。
         /// </summary>
         internal static string Report {
             get {
