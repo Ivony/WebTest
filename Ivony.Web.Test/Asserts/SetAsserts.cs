@@ -26,7 +26,7 @@ namespace Ivony.Web.Test
       assert.Failure( message ?? "断言失败，集合没有满足指定条件的元素" );
     }
 
-    public static void Contains<T>( this TestAssert assert, IEnumerable<T> set, T element, string message )
+    public static void Contains<T>( this TestAssert assert, IEnumerable<T> set, T element, string message = null )
     {
       if ( set.Contains( element ) )
         return;
@@ -35,7 +35,7 @@ namespace Ivony.Web.Test
     }
 
 
-    public static void IsSubsetOf<T>( this TestAssert assert, IEnumerable<T> set, IEnumerable<T> sub, string message )
+    public static void IsSubsetOf<T>( this TestAssert assert, IEnumerable<T> set, IEnumerable<T> sub, string message = null )
     {
       if ( set.Intersect( sub ).Count() == sub.Count() )
         return;
