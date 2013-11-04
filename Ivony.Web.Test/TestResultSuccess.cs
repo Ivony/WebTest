@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Ivony.Web.Test
 {
-  public class TestResultSuccess : TestResult
+  public sealed class TestResultSuccess : TestResult
   {
 
     public TestResultSuccess( TestInfo info, TimeSpan duration )

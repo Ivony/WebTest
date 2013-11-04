@@ -6,17 +6,47 @@
       {
         font-size: 12px;
       }
-    .result .name
-    {
-      width: 150px;
-      float: left;
-    }
-    .result
-    {
-      overflow: hidden;
-    }
+
+      .result-list
+      {
+        width: 300px;
+        margin: auto;
+      }
+
+      .result
+      {
+        margin: 20px;
+      }
+
+        .result.success
+        {
+          color: green;
+        }
+
+        .result.failure
+        {
+          color: red;
+        }
+
+        .result .name
+        {
+          float: left;
+        }
+
+        .result .summary
+        {
+          float: right;
+        }
+
+        .result .message
+        {
+          clear: both;
+        }
   </style>
 </head>
 <body>
+  <div class="result-list">
+    <!--results-->
+  </div>
 </body>
 </html>

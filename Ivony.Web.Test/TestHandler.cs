@@ -58,21 +58,24 @@ namespace Ivony.Web.Test
 
       var types = TestManager.FindTestClasses();
 
-      TestManager manager = new TestManager();
-
-
       var document = new JumonyParser().Parse( Resources.Report );
+      var report = new TestReportService( context.Response.Output );
 
 
-
-      foreach ( var testType in types )
+      report.Begin();
+      try
       {
-        var results = await Task.Run( () => manager.RunTest( testType ) );
-        var container = document.FindFirst( "body" ).AddElement( "div" );
-        GenerateReport( container, results );
-      }
 
-      document.Render( context.Response.Output );
+        foreach ( var testType in types )
+        {
+          var results = await Task.Run( () => TestManager.RunTest( testType ) );
+          report.WriteResults( results );
+        }
+      }
+      finally
+      {
+        report.End();
+      }
 
     }
 

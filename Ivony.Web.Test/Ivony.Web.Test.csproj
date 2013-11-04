@@ -45,9 +45,6 @@
     <Reference Include="Ivony.Html.Parser.Regulars">
       <HintPath>..\packages\JumonyCore.3.0.5.0-beta\lib\Ivony.Html.Parser.Regulars.dll</HintPath>
     </Reference>
-    <Reference Include="Ivony.Web">
-      <HintPath>..\packages\WebUtility.1.0.0\lib\Ivony.Web.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
@@ -72,6 +69,7 @@
     <Compile Include="TestHandler.cs" />
     <Compile Include="TestInfo.cs" />
     <Compile Include="TestManager.cs" />
+    <Compile Include="TestReportService.cs" />
     <Compile Include="TestResult.cs" />
     <Compile Include="TestResultException.cs" />
     <Compile Include="TestResultFailure.cs" />
