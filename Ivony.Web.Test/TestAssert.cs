@@ -15,7 +15,7 @@ namespace Ivony.Web.Test
 
     }
 
-    public void Error( string format, params object[] args )
+    public void Failure( string format, params object[] args )
     {
       throw new TestAssertFailureException( string.Format( CultureInfo.InvariantCulture, format, args ) );
     }

@@ -111,7 +111,8 @@ namespace Ivony.Web.Test
     private Action<object> CreateInvoker( TestClass instance, Type instanceType, MethodInfo method )
     {
       var instanceParameter = Expression.Parameter( typeof( object ), "obj" );
-      var expression = Expression.Lambda<Action<object>>( Expression.Call( Expression.Convert( instanceParameter, instanceType ), method ), instanceParameter );
+      var callExpression = Expression.Call( Expression.Convert( instanceParameter, instanceType ), method );
+      var expression = Expression.Lambda<Action<object>>( callExpression, instanceParameter );
 
       return expression.Compile();
     }
@@ -137,6 +138,7 @@ namespace Ivony.Web.Test
     {
       return testClass.GetMethods( BindingFlags.Public | BindingFlags.Instance )
         .Where( m => !m.GetParameters().Any() )
+        .Where( m => m.ReturnType == null )
         .Where( m => m.DeclaringType != typeof( object ) )
         .Where( m => m.DeclaringType != typeof( TestClass ) )
         .ToArray();
