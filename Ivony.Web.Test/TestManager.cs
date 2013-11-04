@@ -138,7 +138,7 @@ namespace Ivony.Web.Test
     {
       return testClass.GetMethods( BindingFlags.Public | BindingFlags.Instance )
         .Where( m => !m.GetParameters().Any() )
-        .Where( m => m.ReturnType == null )
+        .Where( m => m.ReturnType == typeof( void ) )
         .Where( m => m.DeclaringType != typeof( object ) )
         .Where( m => m.DeclaringType != typeof( TestClass ) )
         .ToArray();

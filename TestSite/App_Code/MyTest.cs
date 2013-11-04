@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using Ivony.Web.Test;
 
 /// <summary>
 /// MyTest 的摘要说明
