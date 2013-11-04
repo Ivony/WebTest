@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -10,7 +11,7 @@ using System.Web.Compilation;
 
 namespace Ivony.Web.Test
 {
-  public class TestManager
+  public static class TestManager
   {
 
 
@@ -37,7 +38,7 @@ namespace Ivony.Web.Test
     }
 
 
-    public TestResult[] RunTest( Type type )
+    public static TestResult[] RunTest( Type type )
     {
       if ( type == null )
         throw new ArgumentNullException( "type" );
@@ -51,7 +52,7 @@ namespace Ivony.Web.Test
 
 
 
-    public TestResult[] RunTest( TestClass instance )
+    public static TestResult[] RunTest( TestClass instance )
     {
 
       var results = new List<TestResult>();
@@ -69,11 +70,10 @@ namespace Ivony.Web.Test
       }
 
       return results.ToArray();
-
-
     }
 
-    public TestInfo GetTestInfo( MethodInfo method )
+
+    public static TestInfo GetTestInfo( MethodInfo method )
     {
       return new TestInfo()
       {
@@ -81,11 +81,12 @@ namespace Ivony.Web.Test
       };
     }
 
-    public TestResult RunTest( TestClass instance, MethodInfo method )
+
+    public static TestResult RunTest( TestClass instance, MethodInfo method )
     {
 
       var info = GetTestInfo( method );
-      var invoker = CreateInvoker( instance, instance.GetType(), method );
+      var invoker = CreateInvoker( instance, method );
       try
       {
         var watch = Stopwatch.StartNew();
@@ -93,9 +94,7 @@ namespace Ivony.Web.Test
         watch.Stop();
 
         return Success( info, watch.Elapsed );
-
       }
-
       catch ( TestAssertFailureException exception )
       {
         return Failure( info, exception );
@@ -108,41 +107,73 @@ namespace Ivony.Web.Test
     }
 
 
-    private Action<object> CreateInvoker( TestClass instance, Type instanceType, MethodInfo method )
-    {
-      var instanceParameter = Expression.Parameter( typeof( object ), "obj" );
-      var callExpression = Expression.Call( Expression.Convert( instanceParameter, instanceType ), method );
-      var expression = Expression.Lambda<Action<object>>( callExpression, instanceParameter );
-
-      return expression.Compile();
-    }
-
-
-    private TestResult Success( TestInfo info, TimeSpan duration )
+    private static TestResult Success( TestInfo info, TimeSpan duration )
     {
       return new TestResultSuccess( info, duration );
     }
 
-    private TestResult Failure( TestInfo info, TestAssertFailureException exception )
+    private static TestResult Failure( TestInfo info, TestAssertFailureException exception )
     {
       return new TestResultFailure( info, exception );
     }
 
-    private TestResult Exception( TestInfo info, Exception exception )
+    private static TestResult Exception( TestInfo info, Exception exception )
     {
       return new TestResultException( info, exception );
     }
 
 
+
+
+    private static Hashtable invokersCache = new Hashtable();
+
+    private static Action<object> CreateInvoker( TestClass instance, MethodInfo method )
+    {
+      lock ( _sync )
+      {
+        var invoker = invokersCache[method] as Action<object>;
+        if ( invoker == null )
+        {
+
+          var instanceParameter = Expression.Parameter( typeof( object ), "obj" );
+          var callExpression = Expression.Call( Expression.Convert( instanceParameter, method.DeclaringType ), method );
+          var expression = Expression.Lambda<Action<object>>( callExpression, instanceParameter );
+
+          invoker = expression.Compile();
+        }
+
+        return invoker;
+      }
+    }
+
+
+
+
+    private static Hashtable methodsCache = new Hashtable();
+
+
     private static MethodInfo[] GetTestMethods( Type testClass )
     {
-      return testClass.GetMethods( BindingFlags.Public | BindingFlags.Instance )
-        .Where( m => !m.GetParameters().Any() )
-        .Where( m => m.ReturnType == typeof( void ) )
-        .Where( m => m.DeclaringType != typeof( object ) )
-        .Where( m => m.DeclaringType != typeof( TestClass ) )
-        .ToArray();
+      lock ( _sync )
+      {
+        var methods = methodsCache[testClass] as MethodInfo[];
+
+        if ( methods == null )
+        {
+          methods = testClass.GetMethods( BindingFlags.Public | BindingFlags.Instance )
+            .Where( m => !m.GetParameters().Any() )
+            .Where( m => m.ReturnType == typeof( void ) )
+            .Where( m => m.DeclaringType != typeof( object ) )
+            .Where( m => m.DeclaringType != typeof( TestClass ) )
+            .Where( m => m.IsVirtual == false )
+            .ToArray();
+        }
+
+        return methods;
+      }
     }
+
+
 
   }
 }
