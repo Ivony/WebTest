@@ -63,13 +63,39 @@ namespace Ivony.Web.Test.Properties {
         /// <summary>
         ///   查找类似 &lt;html&gt;
         ///&lt;head&gt;
-        ///&lt;style&gt;
+        ///  &lt;title&gt;测试报告&lt;/title&gt;
+        ///  &lt;style&gt;
+        ///      body {
+        ///        font-size: 12px;
+        ///      }
         ///
-        ///&lt;/style&gt;
-        ///&lt;/head&gt;
-        ///&lt;body&gt;
-        ///&lt;/body&gt;
-        ///&lt;/html&gt; 的本地化字符串。
+        ///      .result-list {
+        ///        width: 300px;
+        ///        margin: auto;
+        ///      }
+        ///
+        ///      .result {
+        ///        margin: 20px;
+        ///        clear: both;
+        ///      }
+        ///
+        ///        .result.success {
+        ///          color: green;
+        ///        }
+        ///
+        ///        .result.failure {
+        ///          color: red;
+        ///        }
+        ///
+        ///        .result .name {
+        ///          float: left;
+        ///        }
+        ///
+        ///        .result .summary {
+        ///          float: right;
+        ///        }
+        ///
+        ///    [字符串的其余部分被截断]&quot;; 的本地化字符串。
         /// </summary>
         internal static string Report {
             get {
