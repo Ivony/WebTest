@@ -28,6 +28,25 @@ namespace Ivony.Web.Test
       assert.Failure( message ?? "断言失败，期望两个对象不相等，但两个对象相等" );
     }
 
+
+    public static void IsNull<T>( this TestAssert assert, T obj, string message = null ) where T : class
+    {
+      if ( obj == null )
+        return;
+
+      assert.Failure( message ?? "断言失败，期望对象是 null，但对象不是 null" );
+    }
+
+
+    public static void IsNull<T>( this TestAssert assert, T? obj, string message = null ) where T : struct
+    {
+      if ( obj == null )
+        return;
+
+      assert.Failure( message ?? "断言失败，期望对象是 null，但对象有值" );
+    }
+
+
     public static void NotNull<T>( this TestAssert assert, T obj, string message = null ) where T : class
     {
       if ( obj != null )
