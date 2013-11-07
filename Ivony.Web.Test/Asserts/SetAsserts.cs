@@ -53,6 +53,14 @@ namespace Ivony.Web.Test
       assert.Failure( message ?? "断言失败，期望集合包含指定的元素，但集合不包含" );
     }
 
+    public static void NotContains<T>( this TestAssert assert, IEnumerable<T> set, T element, string message = null )
+    {
+      if ( !set.Contains( element ) )
+        return;
+
+      assert.Failure( message ?? "断言失败，期望集合不包含指定的元素，但集合包含" );
+    }
+
 
     public static void IsSubsetOf<T>( this TestAssert assert, ISet<T> set, ISet<T> sub, string message = null )
     {
@@ -61,6 +69,16 @@ namespace Ivony.Web.Test
 
       assert.Failure( message ?? "断言失败，期望集合是指定集合的子集，但验证的集合含有指定集合之外的元素" );
     }
+
+
+    public static void IsSupersetOf<T>( this TestAssert assert, ISet<T> set, ISet<T> super, string message )
+    {
+      if ( super.IsSupersetOf( set ) )
+        return;
+
+      assert.Failure( message ?? "断言失败，期望集合是指定集合的超集，但验证的集合不是" );
+    }
+
 
 
     public static void HasAll<T>( this TestAssert assert, IEnumerable<T> set, Func<T, bool> predicate, string message = null )
