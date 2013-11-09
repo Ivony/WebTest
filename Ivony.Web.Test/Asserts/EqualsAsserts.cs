@@ -72,5 +72,23 @@ namespace Ivony.Web.Test
         assert.Failure( message ?? "断言失败，期望对象不为 null 或 DbNull，但对象是 DbNull" );
     }
 
+
+    public static void IsTrue( this TestAssert assert, bool value, string message = null )
+    {
+      if ( value )
+        return;
+
+      assert.Failure( message ?? "断言失败，期望结果是 true ，但结果是 false" );
+    }
+
+
+    public static void IsFalse( this TestAssert assert, bool value, string message = null )
+    {
+      if ( !value )
+        return;
+
+      assert.Failure( message ?? "断言失败，期望结果是 false ，但结果是 true" );
+    }
+
   }
 }
