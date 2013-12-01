@@ -7,6 +7,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Compilation;
 
 namespace Ivony.Web.Test
@@ -38,7 +39,7 @@ namespace Ivony.Web.Test
     }
 
 
-    public static TestResult[] RunTest( Type type )
+    public static TestResult[] RunTest( Type type, HttpContext context )
     {
       if ( type == null )
         throw new ArgumentNullException( "type" );
@@ -46,28 +47,33 @@ namespace Ivony.Web.Test
       if ( !type.IsSubclassOf( typeof( TestClass ) ) )
         throw new InvalidOperationException();
 
-      return RunTest( Activator.CreateInstance( type ) as TestClass );
+      return RunTest( Activator.CreateInstance( type ) as TestClass, context );
 
     }
 
 
 
-    public static TestResult[] RunTest( TestClass instance )
+    public static TestResult[] RunTest( TestClass instance, HttpContext context )
     {
+
+      instance.Initialize( context );
+
 
       var results = new List<TestResult>();
 
       foreach ( var method in GetTestMethods( instance.GetType() ) )
       {
 
-        instance.Initialize();
+        instance.MethodInitialize();
 
         results.Add( RunTest( instance, method ) );
 
-        instance.Cleanup();
+        instance.MethodCleanup();
 
 
       }
+
+      instance.Cleanup();
 
       return results.ToArray();
     }

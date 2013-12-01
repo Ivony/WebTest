@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Web;
 
 namespace Ivony.Web.Test
 {
@@ -14,6 +15,13 @@ namespace Ivony.Web.Test
     }
 
 
+    protected HttpContext HttpContext
+    {
+      get;
+      private set;
+    }
+
+
     protected TestAssert Assert
     {
       get;
@@ -21,13 +29,24 @@ namespace Ivony.Web.Test
     }
 
 
-    public virtual void Initialize()
+    public virtual void Initialize( HttpContext context )
+    {
+      HttpContext = context;
+    }
+
+    public virtual void Cleanup()
+    {
+    
+    }
+
+
+    public virtual void MethodInitialize()
     {
 
     }
 
 
-    public virtual void Cleanup()
+    public virtual void MethodCleanup()
     {
 
     }

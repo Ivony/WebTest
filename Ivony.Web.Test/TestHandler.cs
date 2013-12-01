@@ -65,7 +65,7 @@ namespace Ivony.Web.Test
 
         foreach ( var testType in types )
         {
-          var results = await Task.Run( () => TestManager.RunTest( testType ) );
+          var results = await Task.Run( () => TestManager.RunTest( testType, context ) );
           report.WriteResults( results );
         }
       }
