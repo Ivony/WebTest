@@ -90,5 +90,25 @@ namespace Ivony.Web.Test
       assert.Failure( message ?? "断言失败，期望结果是 false ，但结果是 true" );
     }
 
+
+    public static void IsTypeOf( this TestAssert assert, object obj, Type type, string message = null )
+    {
+      if ( type.IsAssignableFrom( obj.GetType() ) )
+        return;
+
+      assert.Failure( message ?? "断言失败，期望对象的类型与 '{0}' 相容，但对象类型为 '{1}'", type.AssemblyQualifiedName, obj.GetType().AssemblyQualifiedName );
+    }
+
+
+    public static void IsTypeIs( this TestAssert assert, object obj, Type type, string message = null )
+    {
+      if ( type.Equals( obj.GetType() ) )
+        return;
+
+      assert.Failure( message ?? "断言失败，期望对象的类型是 '{0}'，但对象类型为 '{1}'", type.AssemblyQualifiedName, obj.GetType().AssemblyQualifiedName );
+    }
+
+
+
   }
 }
